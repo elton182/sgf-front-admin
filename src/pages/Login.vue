@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import UserApi from '../api/User.js'
+    import UserApi from '../apis/User.js'
 
     export default {
     data() {
