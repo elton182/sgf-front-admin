@@ -6,7 +6,7 @@
                     <div class="md-title">Login</div>
                 </md-card-header-text>
             </md-card-header>
-
+            <form @submit.prevent="login">
             <md-card-content>
                 <md-field>
                     <label>Email</label>
@@ -18,6 +18,7 @@
                     <md-input v-model="password" type="password" />
                 </md-field>
             </md-card-content>
+            </form>
 
             <md-card-actions>
                 <md-button class="md-raised md-primary" @click="login">Login</md-button>
@@ -27,27 +28,46 @@
 </template>
 
 <script>
-    import UserApi from '../apis/User.js'
+import { useAuthStore } from '../stores/Auth';
+import Notification from '../components/NotificationPlugin/Notification.vue';
 
-    export default {
+export default {
     data() {
         return {
             email: '',
             password: '',
+
         };
     },
     methods: {
-        login() {
+        async login() {
             // Aqui você pode adicionar a lógica de login, como fazer uma solicitação para um servidor
             let form = {
                 email: this.email,
                 password: this.password
             }
-            UserApi.login(form)
-            .then( response => {
-                localStorage.setItem("auth", "true");
-                this.$router.push({ name: "Dashboard" });
-            })
+
+            const authStore = useAuthStore();
+            const self = this
+
+            try {
+
+                
+                console.log(1)
+                await authStore.login(form)
+                self.$router.push({ name: "Dashboard" });
+
+            } catch (err) {
+                
+                this.$notify({
+                    message: 'Erro ao realizar o login, verifique as credênciais informadas',
+                    icon: 'add_alert',
+                    horizontalAlign: 'right',
+                    verticalAlign: 'top',
+                    type: 'danger'
+                })
+            }
+
 
         },
     },

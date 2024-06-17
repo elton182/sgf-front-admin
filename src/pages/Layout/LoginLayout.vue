@@ -1,7 +1,7 @@
 <template>
   <div class="main-content">
 
-
+    <notifications></notifications>
     <dashboard-content> </dashboard-content>
 
     <content-footer v-if="!$route.meta.hideFooter"></content-footer>

@@ -11,16 +11,21 @@ export default {
   async login(form) {
     await Csrf.getCookie();
 
-    return Api.post("/api/login", form);
+    try {
+      
+      return Api.post("/api/login", form);
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   async logout() {
     await Csrf.getCookie();
 
-    return Api.post("/logout");
+    return Api.post("/api/logout");
   },
 
-  auth() {
-    return Api.get("/user");
+  async checkAuth() {
+    return await Api.get("/user");
   }
 };

@@ -21,9 +21,11 @@ import router from './routes'
 Vue.prototype.$Chartist = Chartist;
 
 
+
 const pinia = createPinia();
 
 Vue.use(VueRouter);
+Vue.use(PiniaVuePlugin)
 Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);

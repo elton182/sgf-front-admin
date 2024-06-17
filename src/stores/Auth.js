@@ -4,28 +4,48 @@ import UserApi from '../apis/User.js'
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        user: null
+        user: null,
     }),
     actions: {
-        login(user) {
-            this.user = user;
-            localStorage.setItem('auth', JSON.stringify(user));
-            this.$router.push('/');
+        async login(form) {                                    
+
+            let status 
+            await UserApi.login(form)
+            .then( response => {
+                
+                localStorage.setItem("auth", "true");                
+                this.user = response.user                 
+                return true;
+            })
+            .catch( err =>{
+                
+                throw err
+            })          
         },
-        logout() {
-            this.user = null;
-            localStorage.removeItem('auth');
-            this.$router.push('/login');
+        async logout() {
+            await UserApi.logout()
+            .then( response => {                
+                this.user = null;
+                localStorage.removeItem('auth');            
+            })
+            .catch( err =>{
+                return err
+            })        
         },
         register(user) {
             // Simula o registro e login
             this.login(user);
         },
-        checkAuth() {
-            const user = JSON.parse(localStorage.getItem('auth'));
-            if (user) {
-                this.user = user;
-            }
+        async checkAuth() {
+            //const user = JSON.parse(localStorage.getItem('auth'));
+            await UserApi.checkAuth(form)
+            .then( response => {
+                return true
+            })
+            .catch( err =>{
+                
+                throw err
+            }) 
         }
     }
 });

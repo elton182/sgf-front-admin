@@ -25,6 +25,19 @@ const routes = [
     ]
   },
   {
+    path: "/logout",
+    component: LoginLayout,
+    redirect: "/login",
+    children: [
+      {
+        path: "login",
+        name: "Login",
+        component: Login,
+        meta: { guestOnly: true }
+      }
+    ]
+  },
+  {
     path: "/",
     component: DashboardLayout,
     redirect: "/dashboard",

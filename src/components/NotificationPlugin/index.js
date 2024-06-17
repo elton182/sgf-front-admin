@@ -19,6 +19,7 @@ const NotificationStore = {
     this.state.push(notification);
   },
   notify(notification) {
+    console.log('notifi')
     if (Array.isArray(notification)) {
       notification.forEach((notificationInstance) => {
         this.addNotification(notificationInstance);
