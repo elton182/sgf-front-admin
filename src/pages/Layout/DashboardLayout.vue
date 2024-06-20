@@ -15,9 +15,9 @@
         <md-icon>person</md-icon>
         <p>User Profile</p>
       </sidebar-link>
-      <sidebar-link to="/table">
+      <sidebar-link to="/companys">
         <md-icon>content_paste</md-icon>
-        <p>Table list</p>
+        <p>Cadastro de Empresas</p>
       </sidebar-link>
       <sidebar-link to="/typography">
         <md-icon>library_books</md-icon>
