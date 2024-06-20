@@ -200,6 +200,7 @@
 </template>
 
 <script>
+
 import {
   StatsCard,
   ChartCard,
@@ -215,6 +216,10 @@ export default {
     NavTabsCard,
     NavTabsTable,
     OrderedTable,
+  },
+  setup(){
+    
+
   },
   data() {
     return {

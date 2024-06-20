@@ -7,4 +7,5 @@ let api = axios.create({
 api.defaults.withCredentials = true;
 api.defaults.withXSRFToken = true;
 
+
 export default api;

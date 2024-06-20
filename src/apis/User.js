@@ -13,7 +13,7 @@ export default {
 
     try {
       
-      return Api.post("/api/login", form);
+      return Api.post("/api/empresa1/login", form);
     } catch (error) {
       console.log(error)
     }
@@ -22,10 +22,11 @@ export default {
   async logout() {
     await Csrf.getCookie();
 
-    return Api.post("/api/logout");
+    return Api.post("/logout");
   },
 
   async checkAuth() {
-    return await Api.get("/user");
+    await Csrf.getCookie();
+    return Api.get("/api/empresa1/user");
   }
 };

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { useAuthStore } from '../stores/Auth';
+import { useMainStore } from '../stores/MainStore';
 import Notification from '../components/NotificationPlugin/Notification.vue';
 
 export default {
@@ -47,15 +47,14 @@ export default {
                 password: this.password
             }
 
-            const authStore = useAuthStore();
+            const mainStore = useMainStore();
             const self = this
 
             try {
-
                 
                 console.log(1)
-                await authStore.login(form)
-                self.$router.push({ name: "Dashboard" });
+                await mainStore.login(form)
+                self.$router.push('/dashboard');
 
             } catch (err) {
                 

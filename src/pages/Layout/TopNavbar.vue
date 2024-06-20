@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { useAuthStore } from '../../stores/Auth';
+import { useMainStore } from '../../stores/MainStore';
 export default {
   data() {
     return {
@@ -136,10 +136,10 @@ export default {
     },
     async logout(){
 
-      const authStore = useAuthStore();
+      const mainStore = useMainStore();
 
       try {
-        await authStore.logout()
+        await mainStore.logout()
         location.reload()
       } catch (error) {
         

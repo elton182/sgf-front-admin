@@ -11,6 +11,6 @@ export default {
     //   });
     // }
 
-    return Api.get("/sanctum/csrf-cookie");
+    return Api.get("/api/empresa1/csrf-cookie");
   }
 };

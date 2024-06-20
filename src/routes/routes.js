@@ -13,8 +13,7 @@ import Login from "@/pages/Login.vue"
 const routes = [
   {
     path: "/",
-    component: LoginLayout,
-    redirect: "/dashboard",
+    component: LoginLayout,    
     children: [
       {
         path: "login",
@@ -26,8 +25,7 @@ const routes = [
   },
   {
     path: "/logout",
-    component: LoginLayout,
-    redirect: "/login",
+    component: LoginLayout,    
     children: [
       {
         path: "login",
@@ -39,8 +37,7 @@ const routes = [
   },
   {
     path: "/",
-    component: DashboardLayout,
-    redirect: "/dashboard",
+    component: DashboardLayout,    
     meta: { authOnly: true },
     children: [
 

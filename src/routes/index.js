@@ -5,16 +5,29 @@ import routes from "./routes";
 
 
 function isLoggedIn() {
-    return localStorage.getItem("auth");
+
+    return localStorage.getItem("auth")
+    
 }
 
 const router = new VueRouter({
     routes, // short for routes: routes
     linkExactActiveClass: "nav-item active",
+    mode: 'hash'
 });
 
 
 router.beforeEach((to, from, next) => {
+
+
+    if (to.path != '/login' &&!isLoggedIn() ) {
+      
+        next({
+            path: "/login",            
+        });
+        
+    }
+
     if (to.matched.some(record => record.meta.authOnly)) {
         // this route requires auth, check if logged in
         // if not, redirect to login page.

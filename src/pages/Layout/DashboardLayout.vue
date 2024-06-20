@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
+  <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }" v-if="isLoaded">
     <notifications></notifications>
 
     <side-bar
@@ -55,6 +55,9 @@
 </template>
 
 <script>
+
+import { useMainStore } from "@/stores/MainStore";
+
 import TopNavbar from "./TopNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
@@ -68,6 +71,16 @@ export default {
     ContentFooter,
     MobileMenu,
     FixedPlugin,
+  },
+  setup(){
+    const mainStore = useMainStore()
+
+    return {mainStore}
+  },
+  computed: {
+    isLoaded(){
+      return this.mainStore.getLoaded
+    }
   },
   data() {
     return {

@@ -20,7 +20,7 @@ import router from './routes'
 
 Vue.prototype.$Chartist = Chartist;
 
-
+import {useMainStore} from '@/stores/MainStore'
 
 const pinia = createPinia();
 
@@ -30,6 +30,8 @@ Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
+
+
 
 /* eslint-disable no-new */
 new Vue({
@@ -41,3 +43,7 @@ new Vue({
     Chartist: Chartist,
   },
 });
+
+const mainStore = useMainStore()
+
+mainStore.init()
