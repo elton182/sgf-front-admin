@@ -45,7 +45,11 @@ export default {
   },
   methods: {
     saveCompany(){
+      let self = this
       Company.addCompany(this.company.name)
+      .then( response => {
+        self.$router.push('/companys')
+      } )
     }
   },
   data() {

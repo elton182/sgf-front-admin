@@ -10,7 +10,12 @@ import Notifications from "@/pages/Notifications.vue";
 import Login from "@/pages/Login.vue"
 
 import CompanyList from "@/pages/Company/CompanyList.vue";
+import CompanyUserList from "@/pages/Company/CompanyUserList.vue";
+import CompanyUserAdd from "@/pages/Company/CompanyUserAdd.vue";
 import CompanyAdd from "@/pages/Company/CompanyAdd.vue";
+
+import AdminList from "@/pages/Admin/AdminList.vue";
+import AdminAdd from "@/pages/Admin/AdminAdd.vue";
 
 const routes = [
   {
@@ -62,32 +67,29 @@ const routes = [
         component: CompanyList,
       },
       {
+        path: "company/users/:id",
+        name: "Usuários da Empresa",
+        component: CompanyUserList,
+      },   
+      {
+        path: "company/users/:id/add",
+        name: "Adicionar Usuários na Empresa",
+        component: CompanyUserAdd,
+      },    
+      {
         path: "company/add",
         name: "Adicionar Empresas",
         component: CompanyAdd,
       },
       {
-        path: "typography",
-        name: "Typography",
-        component: Typography,
+        path: "admin",
+        name: "Admin",
+        component: AdminList,
       },
       {
-        path: "icons",
-        name: "Icons",
-        component: Icons,
-      },
-      {
-        path: "maps",
-        name: "Maps",
-        meta: {
-          hideFooter: true,
-        },
-        component: Maps,
-      },
-      {
-        path: "notifications",
-        name: "Notifications",
-        component: Notifications,
+        path: "admin/add",
+        name: "Adicionar Admin",
+        component: AdminAdd,
       }
     ],
   },

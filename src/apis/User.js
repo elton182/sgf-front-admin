@@ -9,36 +9,12 @@ export default {
   },
 
   async login(form) {
-    
-    console.log('antes pre auth')
-   
-
+  
     await Csrf.getCookie();
     try {
       console.log('login')
-      let tenant = localStorage.getItem('tenant');
-      let pre_auth = localStorage.getItem('pre_auth');
-
-      localStorage.removeItem('pre_auth')
-
-      form.pre_auth = pre_auth;
-      
-      return Api.post(`/api/${tenant}/login`, form);
-    } catch (error) {
-      console.log(error)
-    }
-  },
-
-  async preAuth(form) {
-      
-    try {      
-      return Api.post("/api/pre-auth", form)
-      .then( response => {
-        localStorage.setItem('pre_auth', response.data.pre_auth)
-        localStorage.setItem('tenant', response.data.tenant)
-        localStorage.setItem('role', response.data.role)
-        return response.data;
-      } )
+          
+      return Api.post(`/api/login`, form);
     } catch (error) {
       console.log(error)
     }
@@ -48,14 +24,40 @@ export default {
   async logout() {
     await Csrf.getCookie();
 
-    let tenant = localStorage.getItem('tenant');
-    return Api.post(`/api/${tenant}/logout`);
+    return Api.post(`/api/logout`);
   },
 
   async checkAuth() {
     await Csrf.getCookie();
 
-    let tenant = localStorage.getItem('tenant');
-    return Api.get(`/api/${tenant}/user`);
-  }
+    return Api.get(`/api/user`);
+  },
+
+  async getList(data) {
+    await Csrf.getCookie();
+
+    return Api.get(`/api/users?${data}` );
+    
+  },
+
+  async addUser(data){
+    await Csrf.getCookie();
+    
+    try {
+      
+      let result = await Api.post(`/api/user`, data)
+      
+    } catch (error) {
+      
+      var msg = '';
+      for(let erro in error.response.data){
+        msg += error.response.data[erro] + '<br>'
+      }
+      
+      throw msg;
+    }
+    
+   
+    
+  },
 };

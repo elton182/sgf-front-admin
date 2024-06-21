@@ -4,11 +4,11 @@
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Cadastro de Empresas</h4>
+            <h4 class="title">Usuários da Empresa: {{ $route.params.id }}</h4>
             <!-- <p class="category">Here is a subtitle for this table</p> -->            
           </md-card-header>
           <md-card-content>
-            <md-button class="md-success" @click="addCompany">Adicionar Empresa</md-button>
+            <md-button class="md-success" @click="addUser">Adicionar Usuário</md-button>
             <md-table :table-header-color="tableHeaderColor" md-sort="id" md-sort-order="asc" v-model="list">
               <md-table-toolbar>
                 <div class="md-toolbar-section-start">
@@ -22,8 +22,9 @@
               </md-table-toolbar>
 
               <md-table-row slot="md-table-row" slot-scope="{ item , index}">
-                <md-table-cell md-label="Empresa">{{ item.id }}</md-table-cell>
-                <md-table-cell md-label="Papel">{{ item.role }}</md-table-cell>
+                <md-table-cell md-label="Id">{{ item.id }}</md-table-cell>
+                <md-table-cell md-label="Nome">{{ item.name }}</md-table-cell>
+                <md-table-cell md-label="E-mail">{{ item.email }}</md-table-cell>
                 <md-table-cell md-label="Ações">
                   <md-button class="md-just-icon md-danger" @click="delCompany(item.id, index)"><md-icon>delete</md-icon></md-button>                                   
                   <md-button class="md-just-icon md-info" @click="companyUsers(item.id)"><md-icon>manage_accounts</md-icon></md-button>                                   
@@ -59,7 +60,7 @@ export default {
     }
   },
   mounted() {
-   
+   console.log(this.$route.params.id)
     this.getList()
   },
   methods: {
@@ -80,13 +81,13 @@ export default {
       })
       
     },
-    addCompany(){
-      this.$router.push('/company/add')
+    addUser(){
+      this.$router.push(`/company/users/${this.$route.params.id}/add`)
     },  
     getList() {
 
       console.log('updatePagination')
-      Company.getList('search=' + this.search)
+      Company.getUserList(this.$route.params.id, 'search=' + this.search)
         .then(response => {
           this.list = response.data.data
           this.rowsPerPage = response.data.per_page

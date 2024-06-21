@@ -40,12 +40,7 @@ export const useMainStore = defineStore('main', {
         async login(form) {
 
             await this.clearAllCookies()
-
-            await UserApi.preAuth(form)
-            .then( response => {
-                this.mode = response.role
-            })
-
+            
             await UserApi.login(form)
                 .then(response => {
                     localStorage.setItem("auth", "true");
@@ -63,7 +58,6 @@ export const useMainStore = defineStore('main', {
                 .then(response => {
                     this.user = null;
                     localStorage.clear()
-
 
                     // Chama a função para limpar todos os cookies
                     this.clearAllCookies();
