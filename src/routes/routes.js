@@ -10,9 +10,16 @@ import Notifications from "@/pages/Notifications.vue";
 import Login from "@/pages/Login.vue"
 
 import CompanyList from "@/pages/Company/CompanyList.vue";
+import CompanyAdd from "@/pages/Company/CompanyAdd.vue";
+
 import CompanyUserList from "@/pages/Company/CompanyUserList.vue";
 import CompanyUserAdd from "@/pages/Company/CompanyUserAdd.vue";
-import CompanyAdd from "@/pages/Company/CompanyAdd.vue";
+
+import CompanyGroupList from "@/pages/Company/CompanyGroupList.vue";
+import CompanyGroupAdd from "@/pages/Company/CompanyGroupAdd.vue";
+
+import RoutineList from "../pages/Routines/RoutineList.vue";
+import RoutineAdd from "../pages/Routines/RoutineAdd.vue";
 
 import AdminList from "@/pages/Admin/AdminList.vue";
 import AdminAdd from "@/pages/Admin/AdminAdd.vue";
@@ -70,12 +77,22 @@ const routes = [
         path: "company/users/:id",
         name: "Usuários da Empresa",
         component: CompanyUserList,
-      },   
+      },  
+      {
+        path: "company/groups/:id",
+        name: "Grupos da Empresa",
+        component: CompanyGroupList,
+      },    
       {
         path: "company/users/:id/add",
         name: "Adicionar Usuários na Empresa",
         component: CompanyUserAdd,
-      },    
+      },  
+      {
+        path: "company/groups/:id/add",
+        name: "Adicionar Grupos na Empresa",
+        component: CompanyGroupAdd,
+      },  
       {
         path: "company/add",
         name: "Adicionar Empresas",
@@ -90,7 +107,18 @@ const routes = [
         path: "admin/add",
         name: "Adicionar Admin",
         component: AdminAdd,
-      }
+      },
+      {
+        path: "routines",
+        name: "Rotinas",
+        component: RoutineList,
+      },
+      {
+        path: "routine/add",
+        name: "Adicionar Rotina",
+        component: RoutineAdd,
+      },
+      
     ],
   },
 ];

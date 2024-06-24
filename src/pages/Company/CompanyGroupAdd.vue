@@ -4,7 +4,7 @@
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Adicionar Usuário</h4>
+            <h4 class="title">Adicionar Grupo</h4>
             <!-- <p class="category">Here is a subtitle for this table</p> -->
           </md-card-header>
           <md-card-content>
@@ -13,26 +13,12 @@
               <div class="md-layout-item md-small-size-100 md-size-33">
                 <md-field>
                   <label>Nome</label>
-                  <md-input v-model="user.name" type="text"></md-input>
+                  <md-input v-model="group.name" type="text"></md-input>
                 </md-field>
-              </div>
-
-              <div class="md-layout-item md-small-size-100 md-size-33">
-                <md-field>
-                  <label>E-mail</label>
-                  <md-input v-model="user.email" type="text"></md-input>
-                </md-field>
-              </div>
-
-              <div class="md-layout-item md-small-size-100 md-size-33">
-                <md-field>
-                  <label>Senha</label>
-                  <md-input v-model="user.password" type="password"></md-input>
-                </md-field>
-              </div>
+              </div>          
               
               <div class="md-layout-item md-size-100 text-right">
-                <md-button class="md-raised md-success" @click="saveUser">Salvar</md-button>
+                <md-button class="md-raised md-success" @click="saveGroup">Salvar</md-button>
               </div>
             </div>
 
@@ -45,7 +31,7 @@
 
 <script>
 
-import CompanyUser from "../../apis/CompanyUser";
+import CompanyGroup from "@/apis/CompanyGroup";
 import Notification from '@/components/NotificationPlugin/Notification.vue';
 
 export default {
@@ -59,13 +45,13 @@ export default {
 
   },
   methods: {
-    async saveUser(){
+    async saveGroup(){
       let self = this
 
       try{
         
-        this.user.tenant =this.$route.params.id
-        await CompanyUser.addUser(this.user)
+        this.group.tenant = this.$route.params.id
+        await CompanyGroup.addGroup(this.group)
 
         this.$notify({
             message: 'Sucesso ao cadastrar o usuário',
@@ -94,9 +80,9 @@ export default {
   },
   data() {
     return {
-      user: {
-        email: '',
-        name: ''
+      group: {
+        name: '',
+        tenant: ''
       }
     }
   }

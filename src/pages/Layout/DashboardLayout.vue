@@ -16,8 +16,12 @@
         <p>Administradores</p>
       </sidebar-link>
       <sidebar-link to="/companys">
-        <md-icon>content_paste</md-icon>
+        <md-icon>business</md-icon>
         <p>Empresas</p>
+      </sidebar-link>
+      <sidebar-link to="/routines">
+        <md-icon>task</md-icon>
+        <p>Rotinas</p>
       </sidebar-link>
     
       

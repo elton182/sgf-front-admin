@@ -25,8 +25,18 @@
                 <md-table-cell md-label="Empresa">{{ item.id }}</md-table-cell>
                 <md-table-cell md-label="Papel">{{ item.role }}</md-table-cell>
                 <md-table-cell md-label="Ações">
-                  <md-button class="md-just-icon md-danger" @click="delCompany(item.id, index)"><md-icon>delete</md-icon></md-button>                                   
-                  <md-button class="md-just-icon md-info" @click="companyUsers(item.id)"><md-icon>manage_accounts</md-icon></md-button>                                   
+                  <md-button class="md-just-icon md-danger" @click="delCompany(item.id, index)">
+                    <md-icon>delete</md-icon>
+                    <md-tooltip md-direction="top">Deletar Usuário</md-tooltip>
+                  </md-button>
+                  <md-button class="md-just-icon md-info" @click="companyUsers(item.id)">
+                    <md-icon>manage_accounts</md-icon>
+                    <md-tooltip md-direction="top">Usuário da Empresa</md-tooltip>
+                  </md-button>
+                  <md-button class="md-just-icon md-info" @click="companyGroups(item.id)">
+                    <md-icon>groups</md-icon>
+                    <md-tooltip md-direction="top">Grupos da Empresa</md-tooltip>
+                  </md-button>
                 </md-table-cell>
                 
               </md-table-row>
@@ -67,6 +77,9 @@ export default {
 
       this.$router.push(`/company/users/${id}`)
       
+    },
+    companyGroups(id){
+      this.$router.push(`/company/groups/${id}`)
     },
     async delCompany(id, index){
 

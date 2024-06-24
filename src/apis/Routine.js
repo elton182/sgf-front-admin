@@ -5,32 +5,26 @@ export default {
   async getList(data) {
     await Csrf.getCookie();
     
-    return Api.get(`/api/companies?${data}` );
-    
-  },
-  async getUserList(tenant, data) {
-    await Csrf.getCookie();
-    
-    return Api.get(`/api/company/users/${tenant}?${data}` );
+    return Api.get(`/api/routines?${data}` );
     
   },
   
-  async addCompany(name){
+  async addRoutine(name){
     await Csrf.getCookie();
     
-    Api.post(`/api/company`, {name})
+    Api.post(`/api/routine`, {name})
     .then (response => {
         return true;
     })
     
   },
 
-  async addUser(data){
+  async addRoutine(data){
     await Csrf.getCookie();
     
     try {
       
-      let result = await Api.post(`/api/company/user`, data)
+      let result = await Api.post(`/api/routine`, data)
       
     } catch (error) {
       
@@ -44,24 +38,16 @@ export default {
         
   },
 
-  async delUser(id, tenant) {
+  async delRoutine(id) {
     
     try {
       await Csrf.getCookie();
       
-      await Api.delete(`/api/company/user/${tenant}/${id}`);
+      await Api.delete(`/api/routine/${id}`);
     } catch (error) {
       console.log(error)
     }
   },
 
 
-  async delCompany(id){
-    await Csrf.getCookie();
-    
-    Api.delete(`/api/company/${id}` )
-    .then (response => {
-        return true;
-    })
-  }
 }

@@ -4,11 +4,11 @@
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Cadastro de Administradores</h4>
+            <h4 class="title">Rotinas</h4>
             <!-- <p class="category">Here is a subtitle for this table</p> -->            
           </md-card-header>
           <md-card-content>
-            <md-button class="md-success" @click="addUser">Adicionar Usuário</md-button>
+            <md-button class="md-success" @click="addRoutine">Adicionar Rotina</md-button>
             <md-table :table-header-color="tableHeaderColor" md-sort="id" md-sort-order="asc" v-model="list">
               <md-table-toolbar>
                 <div class="md-toolbar-section-start">
@@ -24,9 +24,12 @@
               <md-table-row slot="md-table-row" slot-scope="{ item , index}">
                 <md-table-cell md-label="Id">{{ item.id }}</md-table-cell>
                 <md-table-cell md-label="Nome">{{ item.name }}</md-table-cell>
-                <md-table-cell md-label="E-mail">{{ item.email }}</md-table-cell>
+                <md-table-cell md-label="Caminho">{{ item.path }}</md-table-cell>
                 <md-table-cell md-label="Ações">
-                  <md-button class="md-just-icon md-danger" @click="delUser(item.id, index)"><md-icon>delete</md-icon></md-button>
+                  <md-button class="md-just-icon md-danger" @click="delRoutine(item.id, index)">
+                    <md-icon>delete</md-icon>
+                    <md-tooltip md-direction="top">Deletar Rotina</md-tooltip>
+                  </md-button>                                                     
                 </md-table-cell>
                 
               </md-table-row>
@@ -47,7 +50,7 @@
 
 <script>
 
-import User from "../../apis/User";
+import Routine from "../../apis/Routine";
 
 export default {
   components: {
@@ -57,30 +60,34 @@ export default {
     
   },
   mounted() {
-   
+
     this.getList()
   },
   methods: {
-    async delUser(id, index){
+    
+    async delRoutine(id, index){
 
       let self = this
+      
       try {
         
-        await User.delUser(id)
+        let tenant = this.$route.params.id
+        
+        await Routine.delRoutine(id)
         self.list.splice(index,1)
       } catch (error) {
-        
+
       }
-      
+          
       
     },
-    addUser(){
-      this.$router.push('/admin/add')
+    addRoutine(){
+      this.$router.push(`/routine/add`)
     },  
     getList() {
 
-      console.log('updatePagination')
-      User.getList('search=' + this.search)
+   
+      Routine.getList('search=' + this.search)
         .then(response => {
           this.list = response.data.data
           this.rowsPerPage = response.data.per_page
@@ -95,7 +102,7 @@ export default {
   data() {
     return {
       tableHeaderColor: 'green',
-      api: User,
+      api: Routine,
       selected: [],
       search: '',
       mdCount: null,

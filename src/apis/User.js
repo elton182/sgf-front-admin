@@ -20,6 +20,16 @@ export default {
     }
   },
 
+  async delUser(id) {
+    
+    try {
+      await Csrf.getCookie();  
+      
+      await Api.delete(`/api/user/${id}`);
+    } catch (error) {
+      console.log(error)
+    }
+  },
 
   async logout() {
     await Csrf.getCookie();

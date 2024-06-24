@@ -1,17 +1,14 @@
 <template>
   <div class="content">
     <div class="md-layout">
-
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <md-card>
-
           <md-card-header data-background-color="green">
-            <h4 class="title">Usuários da Empresa: {{ $route.params.id }}</h4>
+            <h4 class="title">Grupos da Empresa: {{ $route.params.id }}</h4>
             <!-- <p class="category">Here is a subtitle for this table</p> -->
           </md-card-header>
           <md-card-content>
-
-            <md-button class="md-success" @click="addUser">Adicionar Usuário</md-button>
+            <md-button class="md-success" @click="addGroup">Adicionar Grupo</md-button>
             <md-table :table-header-color="tableHeaderColor" md-sort="id" md-sort-order="asc" v-model="list">
               <md-table-toolbar>
                 <div class="md-toolbar-section-start">
@@ -27,15 +24,14 @@
               <md-table-row slot="md-table-row" slot-scope="{ item , index}">
                 <md-table-cell md-label="Id">{{ item.id }}</md-table-cell>
                 <md-table-cell md-label="Nome">{{ item.name }}</md-table-cell>
-                <md-table-cell md-label="E-mail">{{ item.email }}</md-table-cell>
                 <md-table-cell md-label="Ações">
-                  <md-button class="md-just-icon md-danger" @click="delUser(item.id, index)">
+                  <md-button class="md-just-icon md-danger" @click="delGroup(item.id, index)">
                     <md-icon>delete</md-icon>
-                    <md-tooltip md-direction="top">Deletar Usuário</md-tooltip>
+                    <md-tooltip md-direction="top">Deletar Grupo</md-tooltip>
                   </md-button>
-                  <md-button class="md-just-icon md-info" @click="manageGroups(item.id, index)">
-                    <md-icon>groups</md-icon>
-                    <md-tooltip md-direction="top">Grupos do Usuário</md-tooltip>
+                  <md-button class="md-just-icon md-info" @click="managePermissions(item.id, index)">
+                    <md-icon>lock_open</md-icon>
+                    <md-tooltip md-direction="top">Permissões do Grupo</md-tooltip>
                   </md-button>
                 </md-table-cell>
 
@@ -50,7 +46,7 @@
         </md-card>
       </div>
       <md-dialog :md-active.sync="showDialog">
-        <md-dialog-title>Grupos do Usuário</md-dialog-title>
+        <md-dialog-title>Permissões do Grupo</md-dialog-title>
 
         <md-dialog-content>
           <div class="md-layout md-gutter md-alignment-center-center" v-if="loading">
@@ -63,14 +59,14 @@
               <md-card>
                 <md-card-header data-background-color="green">
                   <md-card-header-text>
-                    <div class="md-title">Grupos Disponíveis</div>
+                    <div class="md-title">Permissões Disponíveis</div>
                   </md-card-header-text>
                 </md-card-header>
                 <md-card-content>
                   <md-list>
-                    <md-list-item v-for="(availableGroup, index) in getAvailableGroups" :key="index">
-                      {{ availableGroup.name }}
-                      <md-button class="md-icon-button" @click="assignGroup(availableGroup)">
+                    <md-list-item v-for="(availablePermission, index) in getAvailablePermissions" :key="index">
+                      {{ availablePermission.name }}
+                      <md-button class="md-icon-button" @click="assignPermission(availablePermission)">
                         <md-icon>add</md-icon>
                       </md-button>
                     </md-list-item>
@@ -88,9 +84,9 @@
                 </md-card-header>
                 <md-card-content>
                   <md-list>
-                    <md-list-item v-for="(assignedGroup, index) in assignedGroups" :key="index">
-                      {{ assignedGroup.group.name }}
-                      <md-button class="md-icon-button" @click="removeGroup(assignedGroup)">
+                    <md-list-item v-for="(assignedPermission, index) in assignedPermissions" :key="index">
+                      {{ assignedPermission.routine.name }}
+                      <md-button class="md-icon-button" @click="removePermission(assignedPermission)">
                         <md-icon>remove</md-icon>
                       </md-button>
                     </md-list-item>
@@ -112,14 +108,14 @@
         </md-dialog-actions>
       </md-dialog>
 
-
     </div>
   </div>
 </template>
 
 <script>
-import CompanyGroup from '../../apis/CompanyGroup';
-import CompanyUser from "../../apis/CompanyUser";
+
+import CompanyGroup from "../../apis/CompanyGroup";
+import CompanyPermission from "../../apis/CompanyPermission";
 import Notification from '@/components/NotificationPlugin/Notification.vue';
 
 export default {
@@ -127,35 +123,55 @@ export default {
 
   },
   computed: {
-    getAvailableGroups() {
-      return this.availableGroups.filter(group =>
-        !this.assignedGroups.some(assignedGroup => assignedGroup.group_id === group.id)
+    getAvailablePermissions() {
+      return this.availablePermissions.filter(permission =>
+        !this.assignedPermissions.some(assignedPermission => assignedPermission.routine_id === permission.id)
       );
     }
   },
   mounted() {
-    console.log(this.$route.params.id)
+
     this.getList()
-    this.getGroups()
+    this.getPermissions()
   },
   methods: {
-    async assignGroup(group) {
+    async removePermission(assignedPermission) {
+
+      try {
+
+        let tenant = this.$route.params.id
+        await CompanyPermission.delPermissiocnGroup(tenant, assignedPermission.id);
+        await this.getPermissions()
+        await this.getGroupPermission(this.currentGroupId)
+
+        this.$notify({
+          message: 'Permissão removida com sucesso',
+          icon: 'add_alert',
+          horizontalAlign: 'right',
+          verticalAlign: 'top',
+          type: 'success'
+        })
+      } catch (error) {
+
+      }
+    },
+    async assignPermission(permission) {
 
       let tenant = this.$route.params.id
 
       let data = {
-        group_id: group.id,
-        user_id: this.currentUserId,
+        group_id: this.currentGroupId,
+        routine_id: permission.id,
         tenant: tenant
       }
 
       try {
 
-        await CompanyGroup.addUserGroup(data);
-        await this.getGroups()
-        await this.getUserGroups(this.currentUserId)
+        await CompanyPermission.addPermissionGroup(data);
+        await this.getPermissions()
+        await this.getGroupPermission(this.currentGroupId)
         this.$notify({
-          message: 'Grupo atribuído com sucesso',
+          message: 'Permissão atribuída com sucesso',
           icon: 'add_alert',
           horizontalAlign: 'right',
           verticalAlign: 'top',
@@ -164,57 +180,36 @@ export default {
       } catch (error) {
 
       }
-
     },
-    async removeGroup(group) {
-
+    async getPermissions(id, index) {
       try {
-
+        this.loading = true
         let tenant = this.$route.params.id
-        await CompanyGroup.delUserGroup(tenant, group.id);
-        await this.getGroups()
-        await this.getUserGroups(this.currentUserId)
-
-        this.$notify({
-          message: 'Grupo removido com sucesso',
-          icon: 'add_alert',
-          horizontalAlign: 'right',
-          verticalAlign: 'top',
-          type: 'success'
-        })
+        this.availablePermissions = await CompanyPermission.getSimpleList(tenant)
+        this.loading = false
       } catch (error) {
 
       }
-
     },
-    async manageGroups(id, index) {
+    async managePermissions(id, index) {
 
-      this.currentUserId = id
-      await this.getUserGroups(id)
+      this.currentGroupId = id
+      await this.getGroupPermission(id)
       this.showDialog = true
     },
-    async getUserGroups(id) {
+    async getGroupPermission(id) {
       try {
         this.loading = true
         let tenant = this.$route.params.id
-        this.assignedGroups = await CompanyGroup.getGroupUser(tenant, id)
+        this.assignedPermissions = await CompanyPermission.getGroupPermission(tenant, id)
 
         this.loading = false
       } catch (error) {
 
       }
     },
-    async getGroups(id, index) {
-      try {
-        this.loading = true
-        let tenant = this.$route.params.id
-        this.availableGroups = await CompanyGroup.getSimpleList(tenant)
-        this.loading = false
-      } catch (error) {
 
-      }
-    },
-    async delUser(id, index) {
+    async delGroup(id, index) {
 
       let self = this
 
@@ -222,29 +217,21 @@ export default {
 
         let tenant = this.$route.params.id
 
-        await CompanyUser.delUser(id, tenant)
+        await CompanyGroup.delGroup(id, tenant)
         self.list.splice(index, 1)
-
-        this.$notify({
-          message: 'Usuário removido com sucesso',
-          icon: 'add_alert',
-          horizontalAlign: 'right',
-          verticalAlign: 'top',
-          type: 'success'
-        })
       } catch (error) {
 
       }
 
 
     },
-    addUser() {
-      this.$router.push(`/company/users/${this.$route.params.id}/add`)
+    addGroup() {
+      this.$router.push(`/company/groups/${this.$route.params.id}/add`)
     },
     getList() {
 
-      console.log('updatePagination')
-      CompanyUser.getList(this.$route.params.id, 'search=' + this.search)
+
+      CompanyGroup.getList(this.$route.params.id, 'search=' + this.search)
         .then(response => {
           this.list = response.data.data
           this.rowsPerPage = response.data.per_page
@@ -259,26 +246,22 @@ export default {
   data() {
     return {
       tableHeaderColor: 'green',
-      api: CompanyUser,
+      api: CompanyGroup,
       selected: [],
       search: '',
       mdCount: null,
       mdPage: null,
       list: [],
       rowsPerPage: 15,
+      currentGroupId: 0,
       showDialog: false,
-      availableGroups: [],
-      assignedGroups: [],
-      currentUserId: 0,
-      loading: false
+      loading: false,
+      availablePermissions: [],
+      assignedPermissions: [],
     }
   }
 };
 </script>
 
 
-<style>
-.md-dialog-container {
-  width: 80% !important;
-}
-</style>
+<style scoped></style>

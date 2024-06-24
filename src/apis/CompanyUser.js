@@ -1,27 +1,12 @@
 import Api from "./Api";
 import Csrf from "./Csrf";
 
-export default {
-  async getList(data) {
-    await Csrf.getCookie();
-    
-    return Api.get(`/api/companies?${data}` );
-    
-  },
-  async getUserList(tenant, data) {
+export default { 
+ 
+  async getList(tenant, data) {
     await Csrf.getCookie();
     
     return Api.get(`/api/company/users/${tenant}?${data}` );
-    
-  },
-  
-  async addCompany(name){
-    await Csrf.getCookie();
-    
-    Api.post(`/api/company`, {name})
-    .then (response => {
-        return true;
-    })
     
   },
 
@@ -55,13 +40,4 @@ export default {
     }
   },
 
-
-  async delCompany(id){
-    await Csrf.getCookie();
-    
-    Api.delete(`/api/company/${id}` )
-    .then (response => {
-        return true;
-    })
-  }
 }
