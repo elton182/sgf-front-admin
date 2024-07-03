@@ -57,6 +57,13 @@ export default {
   },
   mounted() {
 
+    if(this.$route.params.id){
+      this.mode = 'edit'
+
+      this.getData()
+
+    }
+
   },
   methods: {
     async saveUser(){
@@ -64,10 +71,20 @@ export default {
 
       try{
         
-        await User.addUser(this.user)
+        if(this.mode == 'add'){
+          await User.addUser(this.user)
+          
+        } else {
+
+          if(this.user.password == ''){
+            delete this.user.password;
+          }
+
+          await User.updateUser(this.user)
+        }
 
         this.$notify({
-            message: 'Sucesso ao cadastrar o usuário',
+            message: this.mode == 'add' ? 'Sucesso ao cadastrar o usuário': 'Sucesso ao editar o usuário' ,
             icon: 'add_alert',
             horizontalAlign: 'right',
             verticalAlign: 'top',
@@ -75,7 +92,6 @@ export default {
         })
     
         this.$router.push('/admin')
-
         
       } catch( error) {
         
@@ -89,10 +105,21 @@ export default {
       }
 
       
+    },
+    async getData(){
+
+      try {
+        
+        this.user = await User.getUser()
+
+      } catch (error) {
+        
+      }
     }
   },
   data() {
     return {
+      mode: 'add',
       user: {
         email: '',
         name: ''

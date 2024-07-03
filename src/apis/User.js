@@ -50,6 +50,37 @@ export default {
     
   },
 
+  async getUser(){
+
+    try {
+      
+      let user = await Api.get(`/api/user`);
+  
+      return user.data; 
+    } catch (error) {
+      
+    }
+  },
+   
+  async updateUser(data){
+    
+    await Csrf.getCookie();
+    
+    try {
+      
+      let result = await Api.put(`/api/user/${data.id}`, data)
+      
+    } catch (error) {
+      
+      var msg = '';
+      for(let erro in error.response.data){
+        msg += error.response.data[erro] + '<br>'
+      }
+      
+      throw msg;
+    }
+  },
+
   async addUser(data){
     await Csrf.getCookie();
     
@@ -66,8 +97,5 @@ export default {
       
       throw msg;
     }
-    
-   
-    
   },
 };

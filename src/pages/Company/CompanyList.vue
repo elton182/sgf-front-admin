@@ -25,9 +25,13 @@
                 <md-table-cell md-label="Empresa">{{ item.id }}</md-table-cell>
                 <md-table-cell md-label="Papel">{{ item.role }}</md-table-cell>
                 <md-table-cell md-label="Ações">
+                  <md-button class="md-just-icon md-success" @click="editCompany(item.id, index)">
+                    <md-icon>edit</md-icon>
+                    <md-tooltip md-direction="top">Editar Empresa</md-tooltip>
+                  </md-button>
                   <md-button class="md-just-icon md-danger" @click="delCompany(item.id, index)">
                     <md-icon>delete</md-icon>
-                    <md-tooltip md-direction="top">Deletar Usuário</md-tooltip>
+                    <md-tooltip md-direction="top">Deletar Empresa</md-tooltip>
                   </md-button>
                   <md-button class="md-just-icon md-info" @click="companyUsers(item.id)">
                     <md-icon>manage_accounts</md-icon>
@@ -73,6 +77,9 @@ export default {
     this.getList()
   },
   methods: {
+    editCompany(id){
+      this.$router.push(`/company/edit/${id}`)
+    },
     companyUsers(id){
 
       this.$router.push(`/company/users/${id}`)
@@ -86,7 +93,6 @@ export default {
       let self = this
       Company.delCompany(id)
       .then( response => {
-        debugger
         
         self.list.splice(index,1)
         

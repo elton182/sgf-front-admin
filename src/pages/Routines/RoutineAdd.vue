@@ -15,8 +15,8 @@
                   <label>Nome</label>
                   <md-input v-model="routine.name" type="text"></md-input>
                 </md-field>
-               
-              </div>          
+
+              </div>
               <div class="md-layout-item md-small-size-100 md-size-33">
                 <md-field>
                   <label>Caminho(path)</label>
@@ -48,43 +48,65 @@ export default {
 
   },
   mounted() {
+    if (this.$route.params.id) {
+      this.mode = 'edit'
 
+      this.getData()
+
+    }
   },
   methods: {
-    async saveRoutine(){
+    async getData() {
+
+      try {
+
+        this.routine = await Routine.getRoutine(this.$route.params.id)
+
+      } catch (error) {
+
+      }
+    },
+    async saveRoutine() {
       let self = this
 
-      try{
-        
-        await Routine.addRoutine(this.routine)
+      try {
+
+        if (this.mode == 'add') {
+          await Routine.addRoutine(this.routine)
+
+        } else {
+
+          await Routine.updateRoutine(this.routine)
+        }
 
         this.$notify({
-            message: 'Sucesso ao cadastrar o usuário',
-            icon: 'add_alert',
-            horizontalAlign: 'right',
-            verticalAlign: 'top',
-            type: 'success'
+          message: this.mode == 'add' ? 'Sucesso ao cadastrar a rotina' : 'Sucesso ao atualizar a rotina',
+          icon: 'add_alert',
+          horizontalAlign: 'right',
+          verticalAlign: 'top',
+          type: 'success'
         })
-    
+
         this.$router.go(-1)
 
-        
-      } catch( error) {
-        
+
+      } catch (error) {
+
         this.$notify({
-            message: error,
-            icon: 'add_alert',
-            horizontalAlign: 'right',
-            verticalAlign: 'top',
-            type: 'danger'
+          message: error,
+          icon: 'add_alert',
+          horizontalAlign: 'right',
+          verticalAlign: 'top',
+          type: 'danger'
         })
       }
 
-      
+
     }
   },
   data() {
     return {
+      mode: 'add',
       routine: {
         name: ''
       }

@@ -27,6 +27,7 @@
                 <md-table-cell md-label="E-mail">{{ item.email }}</md-table-cell>
                 <md-table-cell md-label="Ações">
                   <md-button class="md-just-icon md-danger" @click="delUser(item.id, index)"><md-icon>delete</md-icon></md-button>
+                  <md-button class="md-just-icon md-warning" @click="editUser(item.id, index)"><md-icon>edit</md-icon></md-button>
                 </md-table-cell>
                 
               </md-table-row>
@@ -61,6 +62,11 @@ export default {
     this.getList()
   },
   methods: {
+    async editUser(id, index){
+
+      this.$router.push(`/admin/edit/${id}`)
+      
+    },
     async delUser(id, index){
 
       let self = this

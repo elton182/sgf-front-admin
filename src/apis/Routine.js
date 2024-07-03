@@ -49,5 +49,36 @@ export default {
     }
   },
 
+  async getRoutine(id){
+
+    try {
+      
+      let user = await Api.get(`/api/routine/${id}`);
+  
+      return user.data; 
+    } catch (error) {
+      
+    }
+  },
+   
+  async updateRoutine(data){
+    
+    await Csrf.getCookie();
+    
+    try {
+      
+      let result = await Api.put(`/api/routine/${data.id}`, data)
+      
+    } catch (error) {
+      
+      var msg = '';
+      for(let erro in error.response.data){
+        msg += error.response.data[erro] + '<br>'
+      }
+      
+      throw msg;
+    }
+  },
+
 
 }

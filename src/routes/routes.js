@@ -11,6 +11,7 @@ import Login from "@/pages/Login.vue"
 
 import CompanyList from "@/pages/Company/CompanyList.vue";
 import CompanyAdd from "@/pages/Company/CompanyAdd.vue";
+import CompanyEdit from "@/pages/Company/CompanyEdit.vue";
 
 import CompanyUserList from "@/pages/Company/CompanyUserList.vue";
 import CompanyUserAdd from "@/pages/Company/CompanyUserAdd.vue";
@@ -99,6 +100,11 @@ const routes = [
         component: CompanyAdd,
       },
       {
+        path: "company/edit/:id",
+        name: "Editar Informações da Empresa",
+        component: CompanyEdit,
+      },
+      {
         path: "admin",
         name: "Admin",
         component: AdminList,
@@ -109,12 +115,22 @@ const routes = [
         component: AdminAdd,
       },
       {
+        path: "admin/edit/:id",
+        name: "Editar Admin",
+        component: AdminAdd,
+      },
+      {
         path: "routines",
         name: "Rotinas",
         component: RoutineList,
       },
       {
         path: "routine/add",
+        name: "Adicionar Rotina",
+        component: RoutineAdd,
+      },
+      {
+        path: "routine/edit/:id",
         name: "Adicionar Rotina",
         component: RoutineAdd,
       },

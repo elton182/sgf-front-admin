@@ -2,6 +2,28 @@ import Api from "./Api";
 import Csrf from "./Csrf";
 
 export default {
+
+  async getCompany(company) {
+    await Csrf.getCookie();
+    
+    let response = await Api.get(`/api/company/${company}` );
+    return response.data
+    
+  },
+
+  async updateCompany(data){
+    await Csrf.getCookie();
+
+    Api.post(`/api/company-update`, data,{
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then (response => {
+        return true;
+    })
+  },
+
   async getList(data) {
     await Csrf.getCookie();
     
