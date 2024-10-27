@@ -37,10 +37,10 @@ export default {
     
   },
   
-  async addCompany(name){
+  async addCompany(data){
     await Csrf.getCookie();
     
-    Api.post(`/api/company`, {name})
+    Api.post(`/api/company`, data)
     .then (response => {
         return true;
     })

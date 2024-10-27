@@ -25,6 +25,9 @@ import RoutineAdd from "../pages/Routines/RoutineAdd.vue";
 import AdminList from "@/pages/Admin/AdminList.vue";
 import AdminAdd from "@/pages/Admin/AdminAdd.vue";
 
+import ClientList from "../pages/Client/ClientList.vue";
+import ClientAdd from "../pages/Client/ClientAdd.vue";
+
 const routes = [
   {
     path: "/",
@@ -102,7 +105,7 @@ const routes = [
       {
         path: "company/edit/:id",
         name: "Editar Informações da Empresa",
-        component: CompanyEdit,
+        component: CompanyAdd,
       },
       {
         path: "admin",
@@ -134,9 +137,96 @@ const routes = [
         name: "Adicionar Rotina",
         component: RoutineAdd,
       },
-      
+      {
+        path: "clients",
+        name: "Lista de Clientes",
+        component: ClientList
+      },
+      {
+        path: "clients/add",
+        name: "Adicionar Cliente",
+        component: ClientAdd
+      },
+      {
+        path: "clients/edit/:id",
+        name: "Editar Cliente",
+        component: ClientAdd,
+      },
+      {
+        path: 'brands',
+        name: 'Lista de Marcas',
+        component: () => import('../pages/Brand/BrandList.vue'),
+      },
+      {
+        path: 'brands/add',
+        name: 'Adicionar Marca',
+        component: () => import('../pages/Brand/BrandAdd.vue'),
+      },
+      {
+        path: 'manufacturers',
+        name: 'Lista de Marcas',
+        component: () => import('../pages/Manufacturer/ManufacturerList.vue'),
+      },
+      {
+        path: 'manufacturers/add',
+        name: 'Adicionar Marca',
+        component: () => import('../pages/Manufacturer/ManufacturerAdd.vue'),
+      },
+      {
+        path: 'vehicle-types',
+        name: 'Lista de Tipos de Veículos',
+        component: () => import('../pages/VehicleType/VehicleTypeList.vue'),
+      },
+      {
+        path: 'vehicle-types/add',
+        name: 'Adicionar Tipo Veículo',
+        component: () => import('../pages/VehicleType/VehicleTypeAdd.vue'),
+      },
+      {
+        path: 'vehicle-models',
+        name: 'Lista de Modelos de Veículos',
+        component: () => import('../pages/VehicleModel/VehicleModelList.vue'),
+      },
+      {
+        path: 'vehicle-models/add',
+        name: 'Adicionar Modelo de Veículo',
+        component: () => import('../pages/VehicleModel/VehicleModelAdd.vue'),
+      },
+      {
+        path: 'event-types',
+        name: 'Lista de Tipos de Eventos',
+        component: () => import('../pages/EventType/EventTypeList.vue'),
+      },
+      {
+        path: 'event-types/add',
+        name: 'Tipos de Eventos',
+        component: () => import('../pages/EventType/EventTypeAdd.vue'),
+      },
+      {
+        path: 'event-types/edit/:id',
+        name: 'Editar Eventos',
+        component: () => import('../pages/EventType/EventTypeAdd.vue'),
+      },
+      {
+        path: 'platforms',
+        name: 'Lista de Plataformas',
+        component: () => import('../pages/Platform/PlatformList.vue'),
+      },
+      {
+        path: 'platforms/add',
+        name: 'Adicionar Plataforma',
+        component: () => import('../pages/Platform/PlatformAdd.vue'),
+      },
+      {
+        path: 'platforms/edit/:id',
+        name: 'Adicionar Plataforma',
+        component: () => import('../pages/Platform/PlatformAdd.vue'),
+      },
     ],
   },
 ];
 
 export default routes;
+
+
+  

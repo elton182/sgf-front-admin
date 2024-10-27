@@ -4,11 +4,11 @@
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Cadastro de Empresas</h4>
+            <h4 class="title">Cadastro de Clientes</h4>
             <!-- <p class="category">Here is a subtitle for this table</p> -->            
           </md-card-header>
           <md-card-content>
-            <md-button class="md-success" @click="addCompany">Adicionar Empresa</md-button>
+            <md-button class="md-success" @click="addClient">Adicionar Cliente</md-button>
             <md-table :table-header-color="tableHeaderColor" md-sort="id" md-sort-order="asc" v-model="list">
               <md-table-toolbar>
                 <div class="md-toolbar-section-start">
@@ -22,28 +22,14 @@
               </md-table-toolbar>
 
               <md-table-row slot="md-table-row" slot-scope="{ item , index}">
-                <md-table-cell md-label="Logo">
-                  <img :src="item.client.logo_image_url" alt="" style="width: 100px;height: 100px;">
-                </md-table-cell>
-                <md-table-cell md-label="Tenant">{{ item.id }}</md-table-cell>
-                <md-table-cell md-label="Nome">{{ item.client.name }}</md-table-cell>
+                <md-table-cell md-label="Foto">{{ item.photo_url }}</md-table-cell>
+                <md-table-cell md-label="Id">{{ item.id }}</md-table-cell>
+                <md-table-cell md-label="Nome">{{ item.name }}</md-table-cell>
+                <md-table-cell md-label="CPF/CNPJ">{{ item.cpfcnpj }}</md-table-cell>
+                <md-table-cell md-label="E-mail">{{ item.email }}</md-table-cell>
                 <md-table-cell md-label="Ações">
-                  <md-button class="md-just-icon md-success" @click="editCompany(item.id, index)">
-                    <md-icon>edit</md-icon>
-                    <md-tooltip md-direction="top">Editar Empresa</md-tooltip>
-                  </md-button>
-                  <md-button class="md-just-icon md-danger" @click="delCompany(item.id, index)">
-                    <md-icon>delete</md-icon>
-                    <md-tooltip md-direction="top">Deletar Empresa</md-tooltip>
-                  </md-button>
-                  <md-button class="md-just-icon md-info" @click="companyUsers(item.id)">
-                    <md-icon>manage_accounts</md-icon>
-                    <md-tooltip md-direction="top">Usuário da Empresa</md-tooltip>
-                  </md-button>
-                  <md-button class="md-just-icon md-info" @click="companyGroups(item.id)">
-                    <md-icon>groups</md-icon>
-                    <md-tooltip md-direction="top">Grupos da Empresa</md-tooltip>
-                  </md-button>
+                  <md-button class="md-just-icon md-warning" @click="editClient(item.id, index)"><md-icon>edit</md-icon></md-button>
+                  <md-button class="md-just-icon md-danger" @click="delClient(item.id, index)"><md-icon>delete</md-icon></md-button>
                 </md-table-cell>
                 
               </md-table-row>
@@ -64,51 +50,45 @@
 
 <script>
 
-import Company from "../../apis/Company";
+import Client from "../../apis/Client";
 
 export default {
   components: {
   
   },
   computed: {
-    companyList(){
-      return this.list
-    }
+    
   },
   mounted() {
    
     this.getList()
   },
   methods: {
-    editCompany(id){
-      this.$router.push(`/company/edit/${id}`)
-    },
-    companyUsers(id){
+    async editClient(id, index){
 
-      this.$router.push(`/company/users/${id}`)
+      this.$router.push(`/clients/edit/${id}`)
       
     },
-    companyGroups(id){
-      this.$router.push(`/company/groups/${id}`)
-    },
-    async delCompany(id, index){
+    async delClient(id, index){
 
       let self = this
-      Company.delCompany(id)
-      .then( response => {
+      try {
         
+        await Client.delClient(id)
         self.list.splice(index,1)
+      } catch (error) {
         
-      })
+      }
+      
       
     },
-    addCompany(){
-      this.$router.push('/company/add')
+    addClient(){
+      this.$router.push('/clients/add')
     },  
     getList() {
 
       console.log('updatePagination')
-      Company.getList('search=' + this.search)
+      Client.getList('search=' + this.search)
         .then(response => {
           this.list = response.data.data
           this.rowsPerPage = response.data.per_page
@@ -123,7 +103,7 @@ export default {
   data() {
     return {
       tableHeaderColor: 'green',
-      api: Company,
+      api: Client,
       selected: [],
       search: '',
       mdCount: null,

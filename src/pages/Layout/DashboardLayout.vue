@@ -22,8 +22,35 @@
       <sidebar-link to="/routines">
         <md-icon>task</md-icon>
         <p>Rotinas</p>
+      </sidebar-link>      
+      <!-- <sidebar-link to="/clients">
+        <md-icon>store</md-icon>
+        <p>Clientes</p>
+      </sidebar-link> -->
+      <sidebar-link to="/brands">
+        <md-icon>store</md-icon>
+        <p>Marcas</p>
       </sidebar-link>
-    
+      <sidebar-link to="/manufacturers">
+        <md-icon>handyman</md-icon>
+        <p>Fabricantes</p>
+      </sidebar-link>
+      <sidebar-link to="/vehicle-types">
+        <md-icon>local_shipping</md-icon>
+        <p>Tipos de Veículos</p>
+      </sidebar-link>
+      <sidebar-link to="/vehicle-models">
+        <md-icon>fire_truck</md-icon>
+        <p>Models de Veículos</p>
+      </sidebar-link>
+      <sidebar-link to="/event-types">
+        <md-icon>dns</md-icon>
+        <p>Tipos de Eventos</p>
+      </sidebar-link>
+      <sidebar-link to="/platforms">
+        <md-icon>satellite_alt</md-icon>
+        <p>Plataformas</p>
+      </sidebar-link>
       
     </side-bar>
 
